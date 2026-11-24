@@ -16,6 +16,8 @@ RedWise Lab 사이드 프로젝트 ③ — Apex Trader Funding 신규 상품(EOD
 | `index.html` | 앱 본체. HTML+CSS+JS 한 파일, 외부 의존성 0개(폰트·라이브러리 CDN 없음) |
 | `tests/make_scenarios.py` | 엑셀 시나리오 5종 생성 + `formulas`로 엑셀 수식 재계산 |
 | `tests/test_e2e.py` | headless Chromium으로 앱 화면을 조작해 엑셀 값·화면 표기와 대조 |
+| `tests/test_i18n.py` | KO/EN 전환 검증 — 커밋본 대비 한국어 회귀, 영문 화면·메타, EN/KO 수치 동일, 토글 왕복, 레이아웃 |
+| `en/index.html` | 영문 공유용 정적 엔트리 — 영문 OG 메타를 내려주고 `?lang=en`으로 넘김(계산기 본체는 `index.html` 하나) |
 | `tests/shots.py` | PC(다크·라이트)·모바일(390px) 스크린샷 재생성 |
 | `tests/excel_expected.json` | 엑셀 재계산 기준값 |
 | `tests/app_actual.json` | 앱 화면 계산값 |
@@ -57,6 +59,13 @@ python3 -m http.server 8000     # → http://localhost:8000
 - 390px 모바일 ~ 1360px 데스크톱 반응형, 모바일 하단 고정 요약 바
 - 인쇄·스크린리더용 시맨틱 마크업(aria-pressed, aria-live, role=progressbar)
 
+## 언어 (KO / EN)
+
+- 상단 `KO | EN` 토글로 즉시 전환하며, 선택은 브라우저에 저장됩니다(기본 한국어).
+- `?lang=en`으로 영문 링크를 그대로 공유할 수 있습니다 — https://inhyeokoh03.github.io/apex-rule-calculator/?lang=en
+- 영문 화면에서는 `<html lang>`, `<title>`, description, OG 태그(`og:locale=en_US`, `og:url`)도 함께 영문으로 바뀝니다. 크롤러는 JS를 실행하지 않으므로, 레딧 등 미리보기용으로 영문 메타만 담은 정적 엔트리 `en/`를 함께 둡니다(사람은 `?lang=en`으로 이동).
+- 계산 로직은 언어와 무관하게 동일한 함수·상수이며, 같은 입력에서 EN/KO 화면의 숫자가 완전히 같음을 테스트로 검증합니다(134 + 16항목).
+
 ## 배포
 
 정적 파일 하나라 어디든 그대로 올라갑니다. 현재 GitHub Pages(`main` 브랜치 루트)로 서빙 중입니다.
@@ -78,11 +87,13 @@ python3 -m http.server 8000     # → http://localhost:8000
 pip install openpyxl formulas playwright && playwright install chromium
 python3 tests/make_scenarios.py     # 엑셀 재계산 → excel_expected.json
 python3 tests/test_e2e.py           # 브라우저 대조 → PASS/FAIL
+python3 tests/test_i18n.py          # KO/EN 전환 검증 → PASS/FAIL
 python3 tests/shots.py              # screenshots/ 갱신
 ```
 
 결과: 5개 시나리오 × 19항목 = **95/95**(엑셀 재계산값 ↔ 화면값), HWM 보정 케이스 21/21,
 화면 문구 14/14, 모바일 4/4 → **총 134/134**. 상세는 `tests/검증결과표.md`.
+추가로 KO/EN 전환 검증 `tests/test_i18n.py` **16/16**(한국어 회귀 10개 상태·영문 화면·메타·수치 동일·토글 왕복·레이아웃).
 시나리오는 25K/50K/100K/150K × EOD/Intraday, 출금 이력 있음/없음, 일관성 정확히 50% 경계,
 출금 가능/불가, HWM 보정(EOD·Intraday·공란) 케이스를 포함합니다.
 95개 항목은 같은 규정 해석으로 만든 엑셀·웹앱 두 구현의 일치 확인이며, 규정 자체 대조는
@@ -98,6 +109,8 @@ Instinct 검수(2026-11-23)와 Apex 공식 문서로 별도 확인했습니다.
 
 - [x] Instinct 로직·UX 교차검증 회신 반영 (2026-11-23: HWM 보정 분리·상한 표기·라벨·비활성 규정·기준일)
 - [x] GitHub Pages 배포 (2026-11-24, https://inhyeokoh03.github.io/apex-rule-calculator/)
+- [x] KO/EN 전환 + `?lang=en` 공유 링크 (2026-11-24)
+- [ ] (선택) 영문 OG 미리보기 이미지(og:image) — 영문 히어로 스크린샷을 `screenshots/`에 올린 뒤 연결
 - [ ] (선택) Cloudflare Pages 배포
 - [ ] 제휴 링크를 실제로 붙이는 시점에 링크 옆 제휴 고지 문구 추가(현재는 미래형 안내만)
 - [ ] 크몽 전자책 2호 공개 후 CTA 링크 연결(현재 placeholder)

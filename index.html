@@ -1,6 +1,14 @@
 <!doctype html>
 <html lang="ko" data-theme="dark">
 <head>
+<!-- Google tag (gtag.js) · GA4 속성 "Apex Rule Calculator" · 측정 ID G-TSL9D9TJEH -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TSL9D9TJEH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-TSL9D9TJEH');
+</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Apex 프랍 룰 계산기 · RedWise Lab</title>
@@ -9,6 +17,14 @@
 <meta property="og:title" content="Apex 프랍 룰 계산기 · RedWise Lab">
 <meta property="og:description" content="트레일링 드로우다운 여유·Safety Net·50% 일관성 규칙·출금 가능 여부를 한 화면에서. Apex 신규 상품(EOD·Intraday) 무료 계산기.">
 <meta property="og:type" content="website">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:url" content="https://inhyeokoh03.github.io/apex-rule-calculator/">
+<meta property="og:site_name" content="RedWise Lab">
+<meta name="twitter:card" content="summary">
+<link rel="alternate" hreflang="ko" href="https://inhyeokoh03.github.io/apex-rule-calculator/">
+<link rel="alternate" hreflang="en" href="https://inhyeokoh03.github.io/apex-rule-calculator/?lang=en">
+<link rel="alternate" hreflang="x-default" href="https://inhyeokoh03.github.io/apex-rule-calculator/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230A0D13'/%3E%3Cpath d='M18 46V18h10c6 0 10 3.6 10 9 0 4-2 7-5.4 8.2L40 46h-7l-6-9.4h-3V46h-6zm6-14.6h3.6c3 0 4.6-1.4 4.6-4.2 0-2.7-1.7-4.1-4.6-4.1H24v8.3z' fill='%23E23B47'/%3E%3Cpath d='M43 18h4l4 11 4-11h4l-6.5 17h-3L43 18z' fill='%23E3B457'/%3E%3C/svg%3E">
 <style>
 *,*::before,*::after{box-sizing:border-box}
@@ -87,7 +103,7 @@ h1 em{font-style:normal; background:linear-gradient(100deg,var(--accent) 10%,var
 
 .layout{display:grid; grid-template-columns:minmax(0,420px) minmax(0,1fr); gap:18px; align-items:start}
 @media (max-width:940px){ .layout{grid-template-columns:1fr} }
-@media (max-width:379px){ .top-link{display:none} }
+@media (max-width:640px){ .top-link{display:none} }
 
 .panel{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow)}
 .panel-head{display:flex; align-items:center; justify-content:space-between; gap:10px;
@@ -271,6 +287,7 @@ table.caps td.sum{color:var(--txt); font-weight:750; border-top:1px solid var(--
 
 footer{margin-top:26px; padding-top:18px; border-top:1px solid var(--line); color:var(--faint); font-size:11.5px; line-height:1.65}
 footer p{margin:0 0 8px}
+footer p:empty{display:none}
 footer .sig{color:var(--muted); font-weight:600}
 
 .mobilebar{display:none}
@@ -285,6 +302,16 @@ footer .sig{color:var(--muted); font-weight:600}
   main{padding-bottom:96px}
 }
 .sr{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0}
+
+/* ── language toggle ── */
+.langseg{display:inline-flex; gap:2px; padding:3px; background:var(--panel2);
+  border:1px solid var(--line); border-radius:10px}
+.langseg button{appearance:none; border:0; background:transparent; color:var(--muted); cursor:pointer;
+  font:inherit; font-size:11.5px; font-weight:700; letter-spacing:.04em; padding:6px 9px; border-radius:7px; transition:.15s}
+.langseg button:hover{color:var(--txt2)}
+.langseg button[aria-pressed="true"]{background:var(--panel); color:var(--txt); box-shadow:0 1px 0 rgba(255,255,255,.05)}
+[data-theme="light"] .langseg button[aria-pressed="true"]{box-shadow:0 1px 6px -3px rgba(16,23,37,.3)}
+
 [hidden]{display:none !important}
 @media (prefers-reduced-motion:reduce){ *{transition:none !important} }
 </style>
@@ -297,35 +324,39 @@ footer .sig{color:var(--muted); font-weight:600}
     <span class="brand-txt"><b>RedWise Lab</b><small>Prop Tools</small></span>
   </a>
   <div class="topbar-right">
-    <a class="top-link" href="https://mon3ycompass.tistory.com" target="_blank" rel="noopener">머니콤파스 ↗</a>
-    <button class="icon-btn" id="themeBtn" type="button" aria-label="라이트/다크 테마 전환">☾</button>
+    <a class="top-link" href="https://mon3ycompass.tistory.com" target="_blank" rel="noopener" data-i18n="top.blog">머니콤파스 ↗</a>
+    <div class="langseg" role="group" aria-label="Language">
+      <button type="button" data-lang="ko" aria-pressed="true" lang="ko">KO</button>
+      <button type="button" data-lang="en" aria-pressed="false" lang="en">EN</button>
+    </div>
+    <button class="icon-btn" id="themeBtn" type="button" aria-label="라이트/다크 테마 전환" data-i18n-aria="theme.toggle">☾</button>
   </div>
 </header>
 
 <main id="top">
   <section class="hero">
-    <div class="eyebrow"><i></i> Apex Trader Funding · 신규 상품 기준</div>
-    <h1>내 계좌가 <em>얼마나 버틸 수 있는지</em>,<br>숫자로 바로 확인하세요.</h1>
-    <p class="lede">트레일링 드로우다운 여유, Safety Net, 50% 일관성 규칙, 출금 가능 여부까지 한 화면에서 계산합니다. 전자책 2호 부록 B의 엑셀 계산기와 같은 수식입니다.</p>
+    <div class="eyebrow" data-i18n-pre="hero.eyebrow"><i></i> Apex Trader Funding · 신규 상품 기준</div>
+    <h1 data-i18n-html="hero.title">내 계좌가 <em>얼마나 버틸 수 있는지</em>,<br>숫자로 바로 확인하세요.</h1>
+    <p class="lede" data-i18n="hero.lede">트레일링 드로우다운 여유, Safety Net, 50% 일관성 규칙, 출금 가능 여부까지 한 화면에서 계산합니다. 전자책 2호 부록 B의 엑셀 계산기와 같은 수식입니다.</p>
   </section>
 
   <div class="layout">
     <!-- ─────────── INPUTS ─────────── -->
-    <section class="panel" aria-label="입력">
+    <section class="panel" aria-label="입력" data-i18n-aria="inputs.aria">
       <div class="panel-head">
-        <h2>계좌 정보 입력</h2>
+        <h2 data-i18n="inputs.title">계좌 정보 입력</h2>
         <span class="tag" id="modeTag">PA</span>
       </div>
       <div class="panel-body">
 
-        <div class="seg" role="group" aria-label="계좌 단계">
-          <button type="button" data-mode="eval" aria-pressed="false">평가 단계</button>
-          <button type="button" data-mode="pa" aria-pressed="true">PA 단계</button>
+        <div class="seg" role="group" aria-label="계좌 단계" data-i18n-aria="mode.aria">
+          <button type="button" data-mode="eval" aria-pressed="false" data-i18n="mode.eval">평가 단계</button>
+          <button type="button" data-mode="pa" aria-pressed="true" data-i18n="mode.pa">PA 단계</button>
         </div>
 
         <div class="field" style="margin-top:16px">
-          <label>계좌 크기 <span id="sizeMeta">드로우다운 $2,000</span></label>
-          <div class="chips" role="group" aria-label="계좌 크기">
+          <label data-i18n-pre="size.label">계좌 크기 <span id="sizeMeta">드로우다운 $2,000</span></label>
+          <div class="chips" role="group" aria-label="계좌 크기" data-i18n-aria="size.aria">
             <button type="button" data-size="25K" aria-pressed="false">25K<small>DD $1,000</small></button>
             <button type="button" data-size="50K" aria-pressed="true">50K<small>DD $2,000</small></button>
             <button type="button" data-size="100K" aria-pressed="false">100K<small>DD $3,000</small></button>
@@ -334,8 +365,8 @@ footer .sig{color:var(--muted); font-weight:600}
         </div>
 
         <div class="field">
-          <label>손실 계산 방식 <span>EOD · Intraday</span></label>
-          <div class="seg" role="group" aria-label="손실 계산 방식">
+          <label data-i18n-html="dd.label">손실 계산 방식 <span>EOD · Intraday</span></label>
+          <div class="seg" role="group" aria-label="손실 계산 방식" data-i18n-aria="dd.aria">
             <button type="button" data-type="EOD" aria-pressed="false">EOD</button>
             <button type="button" data-type="Intraday" aria-pressed="true">Intraday</button>
           </div>
@@ -343,20 +374,20 @@ footer .sig{color:var(--muted); font-weight:600}
         </div>
 
         <div class="divider"></div>
-        <div class="section-label">잔고</div>
+        <div class="section-label" data-i18n="balance.section">잔고</div>
 
         <div class="field">
-          <label for="start">시작 잔고 <span>계좌를 받았을 때</span></label>
+          <label for="start" data-i18n-html="start.label">시작 잔고 <span>계좌를 받았을 때</span></label>
           <div class="inputwrap"><span class="pre">$</span><input id="start" class="has-pre num" type="text" inputmode="numeric" value="50,000"></div>
         </div>
 
         <div class="field">
-          <label for="balance">현재 잔고 <span id="balanceHint">PA 잔고</span></label>
+          <label for="balance" data-i18n-pre="bal.label">현재 잔고 <span id="balanceHint">PA 잔고</span></label>
           <div class="inputwrap"><span class="pre">$</span><input id="balance" class="has-pre num" type="text" inputmode="numeric" value="50,900"></div>
         </div>
 
         <div class="field">
-          <label for="hwm">최고 잔고 <span id="hwmHint">High Watermark</span></label>
+          <label for="hwm" data-i18n-pre="hwm.label">최고 잔고 <span id="hwmHint">High Watermark</span></label>
           <div class="inputwrap"><span class="pre">$</span><input id="hwm" class="has-pre num" type="text" inputmode="numeric" value="51,150"></div>
           <p class="hint" id="hwmNote">Intraday는 <b>미실현 수익까지 포함한 장중 고점</b>을 적습니다. 비워 두면 실제보다 안전해 보입니다.</p>
           <div id="hwmStatus" hidden></div>
@@ -365,40 +396,40 @@ footer .sig{color:var(--muted); font-weight:600}
         <!-- PA only -->
         <div id="paFields">
           <div class="divider"></div>
-          <div class="section-label">출금 사이클</div>
+          <div class="section-label" data-i18n="cycle.section">출금 사이클</div>
 
           <div class="grid2">
             <div class="field" style="margin-top:0">
-              <label for="cycleNet">마지막 출금 이후 순이익 <span>사이클</span></label>
+              <label for="cycleNet" data-i18n-html="net.label">마지막 출금 이후 순이익 <span>사이클</span></label>
               <div class="inputwrap"><span class="pre">$</span><input id="cycleNet" class="has-pre num" type="text" inputmode="numeric" value="900"></div>
             </div>
             <div class="field" style="margin-top:0">
-              <label for="largestDay">그 기간 가장 큰 수익일 <span>단일일</span></label>
+              <label for="largestDay" data-i18n-html="largest.label">그 기간 가장 큰 수익일 <span>단일일</span></label>
               <div class="inputwrap"><span class="pre">$</span><input id="largestDay" class="has-pre num" type="text" inputmode="numeric" value="1,000"></div>
             </div>
           </div>
-          <p class="hint">순이익과 가장 큰 수익일은 둘 다 <b>마지막 승인된 출금 이후</b> 기간 기준입니다. 출금 이력이 없다면 계좌 개설 이후 전체입니다.</p>
+          <p class="hint" data-i18n-html="net.hint">순이익과 가장 큰 수익일은 둘 다 <b>마지막 승인된 출금 이후</b> 기간 기준입니다. 출금 이력이 없다면 계좌 개설 이후 전체입니다.</p>
 
           <div class="grid2" style="margin-top:10px">
             <div class="field" style="margin-top:0">
-              <label for="qualDays">자격 거래일 <span id="qualDaysHint">최소 $200 이상</span></label>
-              <div class="inputwrap"><input id="qualDays" class="num" type="text" inputmode="numeric" value="3"><span class="post">일</span></div>
+              <label for="qualDays" data-i18n-pre="days.label">자격 거래일 <span id="qualDaysHint">최소 $200 이상</span></label>
+              <div class="inputwrap"><input id="qualDays" class="num" type="text" inputmode="numeric" value="3"><span class="post" data-i18n="days.post">일</span></div>
             </div>
             <div class="field" style="margin-top:0">
-              <label for="round">출금 회차 <span>1 ~ 6</span></label>
+              <label for="round" data-i18n-html="round.label">출금 회차 <span>1 ~ 6</span></label>
               <select id="round">
-                <option value="1">1회차</option><option value="2">2회차</option><option value="3">3회차</option>
-                <option value="4">4회차</option><option value="5">5회차</option><option value="6">6회차</option>
+                <option value="1" data-i18n="round.1">1회차</option><option value="2" data-i18n="round.2">2회차</option><option value="3" data-i18n="round.3">3회차</option>
+                <option value="4" data-i18n="round.4">4회차</option><option value="5" data-i18n="round.5">5회차</option><option value="6" data-i18n="round.6">6회차</option>
               </select>
             </div>
           </div>
-          <p class="hint">자격 거래일은 <b>최소 일 수익을 넘긴 날</b>만 셉니다. 연속일 필요는 없습니다.</p>
+          <p class="hint" data-i18n-html="days.hint">자격 거래일은 <b>최소 일 수익을 넘긴 날</b>만 셉니다. 연속일 필요는 없습니다.</p>
 
           <div class="field">
-            <label for="consistency">일관성 기준 <span>규정 세대</span></label>
+            <label for="consistency" data-i18n-html="cons.label">일관성 기준 <span>규정 세대</span></label>
             <select id="consistency">
-              <option value="0.5">50% · 신규 상품 PA (기본)</option>
-              <option value="0.3">30% · 레거시 PA (참고)</option>
+              <option value="0.5" data-i18n="cons.opt50">50% · 신규 상품 PA (기본)</option>
+              <option value="0.3" data-i18n="cons.opt30">30% · 레거시 PA (참고)</option>
             </select>
           </div>
         </div>
@@ -406,27 +437,27 @@ footer .sig{color:var(--muted); font-weight:600}
         <!-- EVAL only -->
         <div id="evalFields" hidden>
           <div class="divider"></div>
-          <div class="section-label">평가 조건</div>
+          <div class="section-label" data-i18n="eval.section">평가 조건</div>
           <div class="field" style="margin-top:0">
-            <label for="platform">플랫폼 <span>임계값 정지 규칙</span></label>
+            <label for="platform" data-i18n-html="plat.label">플랫폼 <span>임계값 정지 규칙</span></label>
             <select id="platform">
-              <option value="stop">Rithmic · WealthCharts (목표에서 정지)</option>
-              <option value="free">Tradovate (정지 없음)</option>
+              <option value="stop" data-i18n="plat.optStop">Rithmic · WealthCharts (목표에서 정지)</option>
+              <option value="free" data-i18n="plat.optFree">Tradovate (정지 없음)</option>
             </select>
           </div>
-          <p class="hint">Rithmic·WealthCharts는 임계값이 <b>목표 잔고</b>에서 멈추고, Tradovate는 고점을 계속 따라갑니다.</p>
+          <p class="hint" data-i18n-html="plat.hint">Rithmic·WealthCharts는 임계값이 <b>목표 잔고</b>에서 멈추고, Tradovate는 고점을 계속 따라갑니다.</p>
         </div>
 
         <div class="btnrow">
-          <button class="btn" type="button" id="resetBtn">초기화</button>
-          <button class="btn primary" type="button" id="demoBtn">예시 값 불러오기</button>
+          <button class="btn" type="button" id="resetBtn" data-i18n="btn.reset">초기화</button>
+          <button class="btn primary" type="button" id="demoBtn" data-i18n="btn.demo">예시 값 불러오기</button>
         </div>
-        <p class="hint" style="margin-top:9px">입력값은 이 브라우저에만 저장되며 서버로 전송되지 않습니다.</p>
+        <p class="hint" style="margin-top:9px" data-i18n="privacy.hint">입력값은 이 브라우저에만 저장되며 서버로 전송되지 않습니다.</p>
       </div>
     </section>
 
     <!-- ─────────── RESULTS ─────────── -->
-    <section class="result" aria-label="계산 결과">
+    <section class="result" aria-label="계산 결과" data-i18n-aria="results.aria">
       <div class="hero-card">
         <div class="hero-top">
           <div>
@@ -439,11 +470,11 @@ footer .sig{color:var(--muted); font-weight:600}
         <div class="meter" role="progressbar" aria-labelledby="outBuffer" aria-valuemin="0" aria-valuemax="100" aria-valuenow="88" id="meter">
           <div class="meter-fill" id="meterFill" style="width:88%"></div>
         </div>
-        <div class="meter-ticks"><span>0%</span><span>25% 진입 중단</span><span>50% 계약수 절반</span><span>100%</span></div>
+        <div class="meter-ticks"><span>0%</span><span data-i18n="tick.25">25% 진입 중단</span><span data-i18n="tick.50">50% 계약수 절반</span><span>100%</span></div>
         <div class="hero-foot">
-          <span>적용 임계값 <b id="outThreshold">$49,150</b></span>
-          <span>현재 잔고 <b id="outBalance">$50,900</b></span>
-          <span id="outMnqWrap">MNQ 1계약 <b id="outMnq">875</b>포인트</span>
+          <span data-i18n-pre="foot.threshold">적용 임계값 <b id="outThreshold">$49,150</b></span>
+          <span data-i18n-pre="foot.balance">현재 잔고 <b id="outBalance">$50,900</b></span>
+          <span id="outMnqWrap" data-i18n-pre="mnq.pre" data-i18n-post="mnq.post">MNQ 1계약 <b id="outMnq">875</b>포인트</span>
         </div>
       </div>
 
@@ -459,49 +490,49 @@ footer .sig{color:var(--muted); font-weight:600}
           <div class="d" id="outMinReqD">시작 잔고 + Safety Net + $500</div>
         </div>
         <div class="card" id="cardRisk">
-          <div class="k">권장 1회 손실 한도</div>
+          <div class="k" data-i18n="card.risk">권장 1회 손실 한도</div>
           <div class="v" id="outRisk">$175</div>
           <div class="d" id="outRiskD">버퍼의 10% · MNQ 2계약 44포인트</div>
         </div>
         <div class="card" id="cardDaily">
-          <div class="k">하루 개인 상한</div>
+          <div class="k" data-i18n="card.daily">하루 개인 상한</div>
           <div class="v" id="outDaily">$500</div>
-          <div class="d" id="outDailyD">드로우다운의 25% · 규정이 아닌 개인 규칙</div>
+          <div class="d" id="outDailyD" data-i18n="card.dailyD">드로우다운의 25% · 규정이 아닌 개인 규칙</div>
         </div>
       </div>
 
-      <p class="result-meta" id="resultNotice">규정 기준일 <b>2026-11-22 확인</b> · 출금 가능 여부의 최종 판단은 <b>Apex 대시보드</b> 기준입니다.</p>
+      <p class="result-meta" id="resultNotice" data-i18n-html="resultNotice">규정 기준일 <b>2026-11-22 확인</b> · 출금 가능 여부의 최종 판단은 <b>Apex 대시보드</b> 기준입니다.</p>
 
       <!-- PA blocks -->
       <div id="paBlocks">
         <div class="block">
           <div class="block-head">
-            <h3>출금 요건 3가지</h3>
+            <h3 data-i18n="pa.req">출금 요건 3가지</h3>
             <span class="tag" id="paRuleTag">신규 50%</span>
           </div>
           <ul class="checklist">
             <li data-ok="false" id="chkDays">
               <span class="tick">·</span>
-              <span class="txt"><strong>자격 거래일</strong><span id="chkDaysD">최소 일 수익 $200 이상인 날 5일</span></span>
+              <span class="txt"><strong data-i18n="chk.days">자격 거래일</strong><span id="chkDaysD">최소 일 수익 $200 이상인 날 5일</span></span>
               <span class="val" id="chkDaysV">3 / 5일</span>
             </li>
             <li data-ok="false" id="chkCons">
               <span class="tick">·</span>
-              <span class="txt"><strong>일관성 규칙</strong><span id="chkConsD">그 기간 가장 큰 수익일 ÷ 마지막 출금 이후 순이익 &lt; 50%</span></span>
+              <span class="txt"><strong data-i18n="chk.cons">일관성 규칙</strong><span id="chkConsD">그 기간 가장 큰 수익일 ÷ 마지막 출금 이후 순이익 &lt; 50%</span></span>
               <span class="val" id="chkConsV">111.1%</span>
             </li>
             <li data-ok="false" id="chkBal">
               <span class="tick">·</span>
-              <span class="txt"><strong>잔고 요건</strong><span id="chkBalD">최소 요청 잔고 이상</span></span>
+              <span class="txt"><strong data-i18n="chk.bal">잔고 요건</strong><span id="chkBalD">최소 요청 잔고 이상</span></span>
               <span class="val" id="chkBalV">미달</span>
             </li>
           </ul>
-          <p class="rule-note" id="inactiveNote"><b>PA 비활성 규정:</b> 롤링 30일 내 순이익 $50 이상 거래일 2일 필수 (미충족 시 계정 영구 폐쇄·출금 자격 소멸, 레거시는 별도 규정)</p>
+          <p class="rule-note" id="inactiveNote" data-i18n-html="inactiveNote"><b>PA 비활성 규정:</b> 롤링 30일 내 순이익 $50 이상 거래일 2일 필수 (미충족 시 계정 영구 폐쇄·출금 자격 소멸, 레거시는 별도 규정)</p>
         </div>
 
         <div class="block">
           <div class="block-head">
-            <h3>출금 가능 금액</h3>
+            <h3 data-i18n="pa.amount">출금 가능 금액</h3>
             <div class="payout-badge" data-ok="false" id="payoutBadge">지금은 신청 불가</div>
           </div>
           <div class="payout-money" id="payoutMoney" data-state="ok">
@@ -511,15 +542,15 @@ footer .sig{color:var(--muted); font-weight:600}
           </div>
           <div class="mini-rows">
             <div class="mini-row"><span class="k" id="capLabel">1회차 상한</span><span class="v" id="outCap">$1,500</span></div>
-            <div class="mini-row"><span class="k">Safety Net 초과분</span><span class="v" id="outExcess">−$1,200</span></div>
-            <div class="mini-row"><span class="k">남은 출금 횟수</span><span class="v" id="outRemaining">6회</span></div>
-            <div class="mini-row"><span class="k">6회 누적 상한</span><span class="v" id="outCum">$14,500</span></div>
+            <div class="mini-row"><span class="k" data-i18n="mini.excess">Safety Net 초과분</span><span class="v" id="outExcess">−$1,200</span></div>
+            <div class="mini-row"><span class="k" data-i18n="mini.remaining">남은 출금 횟수</span><span class="v" id="outRemaining">6회</span></div>
+            <div class="mini-row"><span class="k" data-i18n="mini.cum">6회 누적 상한</span><span class="v" id="outCum">$14,500</span></div>
           </div>
-          <p class="caption" id="capCaption">신청 금액은 회차 상한과 잔고 여유 중 작은 값입니다. 모든 출금은 100% 지급됩니다. Tradovate 무체결 포지션 등 플랫폼별 세부 조건은 출금 신청 전 Apex 대시보드에서 확인하세요.</p>
+          <p class="caption" id="capCaption" data-i18n="capCaption">신청 금액은 회차 상한과 잔고 여유 중 작은 값입니다. 모든 출금은 100% 지급됩니다. Tradovate 무체결 포지션 등 플랫폼별 세부 조건은 출금 신청 전 Apex 대시보드에서 확인하세요.</p>
         </div>
 
         <div class="block">
-          <div class="block-head"><h3>다음에 할 일</h3></div>
+          <div class="block-head"><h3 data-i18n="pa.next">다음에 할 일</h3></div>
           <ul class="actions" id="actions"></ul>
         </div>
       </div>
@@ -527,61 +558,62 @@ footer .sig{color:var(--muted); font-weight:600}
       <!-- EVAL blocks -->
       <div id="evalBlocks" hidden>
         <div class="block">
-          <div class="block-head"><h3>목표 달성 진행률</h3><span class="tag" id="evalTag">Rithmic · WealthCharts</span></div>
-          <div class="hero-label" style="font-size:12px">목표 잔고</div>
+          <div class="block-head"><h3 data-i18n="eval.progress">목표 달성 진행률</h3><span class="tag" id="evalTag">Rithmic · WealthCharts</span></div>
+          <div class="hero-label" style="font-size:12px" data-i18n="eval.target">목표 잔고</div>
           <div class="hero-num num" id="outTarget" style="font-size:30px">$53,000</div>
           <div class="meter" style="margin-top:12px"><div class="meter-fill" id="evalMeter" style="width:30%"></div></div>
           <div class="meter-ticks"><span id="evalProgressText">30.0% 달성</span><span id="evalRemainText">$2,100 남음</span></div>
           <div class="hero-foot">
-            <span>평가용 임계값 <b id="outEvalThreshold">$49,150</b></span>
-            <span>일일 손실 한도 <b id="outDll">없음</b> <span class="small-tag">(평가 기준)</span></span>
+            <span data-i18n-pre="eval.threshold">평가용 임계값 <b id="outEvalThreshold">$49,150</b></span>
+            <span data-i18n-pre="eval.dll">일일 손실 한도 <b id="outDll">없음</b> <span class="small-tag" data-i18n="eval.dllTag">(평가 기준)</span></span>
           </div>
         </div>
         <div class="block">
-          <div class="block-head"><h3>평가 단계에서 챙길 것</h3></div>
+          <div class="block-head"><h3 data-i18n="eval.what">평가 단계에서 챙길 것</h3></div>
           <ul class="actions" id="evalActions"></ul>
         </div>
       </div>
 
       <details class="details">
-        <summary>회차별 출금 상한 표 보기</summary>
+        <summary data-i18n="caps.summary">회차별 출금 상한 표 보기</summary>
         <div class="inner">
-          <div class="table-label"><span id="capsLabel">50K · Intraday 회차별 상한</span><b>100% 지급</b></div>
+          <div class="table-label"><span id="capsLabel">50K · Intraday 회차별 상한</span><b data-i18n="caps.paid">100% 지급</b></div>
           <table class="caps" id="capsTable">
-            <thead><tr><th>회차</th><th>25K</th><th>50K</th><th>100K</th><th>150K</th></tr></thead>
+            <thead><tr><th data-i18n="caps.round">회차</th><th>25K</th><th>50K</th><th>100K</th><th>150K</th></tr></thead>
             <tbody></tbody>
           </table>
-          <p class="caption">6회를 모두 받으면 그 PA는 닫히고, 새 평가를 통과해야 합니다. 회차별 상한은 공식 표, 합계는 계산값입니다.</p>
+          <p class="caption" data-i18n="caps.caption">6회를 모두 받으면 그 PA는 닫히고, 새 평가를 통과해야 합니다. 회차별 상한은 공식 표, 합계는 계산값입니다.</p>
         </div>
       </details>
 
-      <div class="note" id="legacyNote" hidden><b>레거시 기준이 선택되었습니다.</b> 이 화면은 일관성 판정만 30%로 바꿉니다. 레거시는 출금 사이클 8거래일(그중 5일 순이익 $50 이상), 회차 상한·활성화비가 달라 <b>표시되는 금액은 신규 상품 기준</b>입니다.</div>
+      <div class="note" id="legacyNote" hidden data-i18n-html="legacyNote"><b>레거시 기준이 선택되었습니다.</b> 이 화면은 일관성 판정만 30%로 바꿉니다. 레거시는 출금 사이클 8거래일(그중 5일 순이익 $50 이상), 회차 상한·활성화비가 달라 <b>표시되는 금액은 신규 상품 기준</b>입니다.</div>
     </section>
   </div>
 
   <section style="margin-top:22px">
     <div class="cta">
       <a href="https://mon3ycompass.tistory.com" target="_blank" rel="noopener">
-        <div class="t">머니콤파스 블로그 ↗</div>
-        <div class="s">프랍펌 규정 해설과 리스크 관리 실전 글</div>
+        <div class="t" data-i18n="cta.blog">머니콤파스 블로그 ↗</div>
+        <div class="s" data-i18n="cta.blogSub">프랍펌 규정 해설과 리스크 관리 실전 글</div>
       </a>
       <div class="soon">
-        <div class="t">전자책 2호 · 프랍펌 규정과 리스크관리</div>
-        <div class="s">부록 B 엑셀 계산기 포함 실전 매뉴얼</div>
-        <span class="chip">크몽 공개 준비 중</span>
+        <div class="t" data-i18n="cta.ebook">전자책 2호 · 프랍펌 규정과 리스크관리</div>
+        <div class="s" data-i18n="cta.ebookSub">부록 B 엑셀 계산기 포함 실전 매뉴얼</div>
+        <span class="chip" data-i18n="cta.ebookChip">크몽 공개 준비 중</span>
       </div>
       <div class="soon">
-        <div class="t">유튜브 @RedWiseLab</div>
-        <div class="s">계산기 사용법과 계좌 방어 7원칙 영상</div>
-        <span class="chip">채널 준비 중</span>
+        <div class="t" data-i18n="cta.yt">유튜브 @RedWiseLab</div>
+        <div class="s" data-i18n="cta.ytSub">계산기 사용법과 계좌 방어 7원칙 영상</div>
+        <span class="chip" data-i18n="cta.ytChip">채널 준비 중</span>
       </div>
     </div>
   </section>
 
   <footer>
-    <p><span class="sig">RedWise Lab</span> · Apex 프랍 룰 계산기</p>
-    <p>본 계산기는 참고용 시뮬레이션이며 투자 권유가 아닙니다. 규정 기준일: 2026-11-22 확인(2026-11-15 팩트체크와 동일 값) · 최종 출금 전 Apex 공식 규정 재확인 필요.</p>
-    <p>이 페이지는 Apex Trader Funding의 공식 자료가 아니며 검수·승인을 받지 않았습니다. 프랍 계좌는 모의 자금 계좌이고 구매비·활성화비는 환불되지 않습니다. 규정과 가격은 예고 없이 바뀝니다. Apex 제휴 링크를 사용할 경우 보상 관계를 표시합니다.</p>
+    <p data-i18n-post="footer.brand"><span class="sig">RedWise Lab</span> · Apex 프랍 룰 계산기</p>
+    <p data-i18n="footer.disclaimer1">본 계산기는 참고용 시뮬레이션이며 투자 권유가 아닙니다. 규정 기준일: 2026-11-22 확인(2026-11-15 팩트체크와 동일 값) · 최종 출금 전 Apex 공식 규정 재확인 필요.</p>
+    <p data-i18n="footer.disclaimer2">이 페이지는 Apex Trader Funding의 공식 자료가 아니며 검수·승인을 받지 않았습니다. 프랍 계좌는 모의 자금 계좌이고 구매비·활성화비는 환불되지 않습니다. 규정과 가격은 예고 없이 바뀝니다. Apex 제휴 링크를 사용할 경우 보상 관계를 표시합니다.</p>
+    <p data-i18n="footer.analytics"></p>
   </footer>
 </main>
 
@@ -696,6 +728,7 @@ function computePA(inp){
   return {
     mode:"pa", size:inp.size, type:type, start:start, balance:inp.balance,
     hwm:h.value, hwmRaw:h.raw, hwmCorrectedBy:h.correctedBy, hwmBelowBalance:h.belowBalance,
+    hwmCorrectedKey: h.correctedBy === "현재 잔고" ? "balance" : (h.correctedBy ? "start" : null),
     dd:dd, limit:limit, threshold:threshold, buffer:buffer, bufferPct:bufferPct,
     stopThreshold:stopThreshold, safetyNet:safetyNet, safetyLine:safetyLine,
     minRequest:minRequest, minDaily:minDaily, riskLimit:riskLimit, dailyCap:dailyCap,
@@ -735,6 +768,7 @@ function computeEval(inp){
   return {
     mode:"eval", size:inp.size, type:inp.type, start:start, balance:inp.balance,
     hwm:h.value, hwmRaw:h.raw, hwmCorrectedBy:h.correctedBy, hwmBelowBalance:h.belowBalance,
+    hwmCorrectedKey: h.correctedBy === "현재 잔고" ? "balance" : (h.correctedBy ? "start" : null),
     dd:dd, target:p.target, targetBal:targetBal, threshold:threshold, buffer:buffer,
     bufferPct:bufferPct, progress:progress, remaining:remaining, reached:reached,
     stopAtTarget:stopAtTarget, minRequest:minRequest, riskLimit:riskLimit,
@@ -755,6 +789,363 @@ const parseNum = v => {
   const n = parseFloat(s);
   return isFinite(n) ? n : 0;
 };
+
+/* ─────────────────────────────────────────────────────────────
+   다국어 (KO 기본 / EN)
+   - 정적 마크업: data-i18n* 속성 + EN_STATIC, 한국어 원문은 로드 시 캡처해 복원
+   - 동적 문구: MSG 테이블 (한국어 원문 그대로 / 영어)
+   ───────────────────────────────────────────────────────────── */
+const LANG_KEY = "redwise.apex.lang.v1";
+let LANG = "ko";
+let i18nMissing = [];
+
+const EN_STATIC = {
+  "top.blog": "Blog (KR) ↗",
+  "theme.toggle": "Switch light/dark theme",
+  "hero.eyebrow": " Apex Trader Funding · 2026 rules",
+  "hero.title": "<em>How much room your account has left</em>,<br>in plain numbers.",
+  "hero.lede": "Trailing drawdown buffer, Safety Net, the 50% consistency test and payout eligibility — calculated on one screen. Built on the Apex rules as of November 2026: free, runs in your browser, no signup.",
+  "inputs.aria": "Inputs",
+  "inputs.title": "Account details",
+  "mode.aria": "Account mode",
+  "mode.eval": "Evaluation",
+  "mode.pa": "PA",
+  "size.label": "Account size ",
+  "size.aria": "Account size",
+  "dd.label": "Drawdown type <span>EOD · Intraday</span>",
+  "dd.aria": "Drawdown type",
+  "balance.section": "Balance",
+  "start.label": "Starting balance <span>when you received the account</span>",
+  "bal.label": "Current balance ",
+  "hwm.label": "Peak balance ",
+  "cycle.section": "Payout cycle",
+  "net.label": "Net profit since last payout <span>cycle</span>",
+  "largest.label": "Best single day in that period <span>single day</span>",
+  "net.hint": "Both figures are measured <b>since your last approved payout</b>. With no payout history, use the whole life of the account.",
+  "days.label": "Qualifying days ",
+  "days.post": "days",
+  "round.label": "Payout number <span>1 ~ 6</span>",
+  "round.1": "Payout 1", "round.2": "Payout 2", "round.3": "Payout 3",
+  "round.4": "Payout 4", "round.5": "Payout 5", "round.6": "Payout 6",
+  "days.hint": "A qualifying day clears the <b>minimum daily profit</b>. Days do not have to be consecutive.",
+  "cons.label": "Consistency rule <span>rule set</span>",
+  "cons.opt50": "50% · new PA (default)",
+  "cons.opt30": "30% · legacy PA (reference)",
+  "eval.section": "Evaluation settings",
+  "plat.label": "Platform <span>where the threshold stops</span>",
+  "plat.optStop": "Rithmic · WealthCharts (stops at target)",
+  "plat.optFree": "Tradovate (no stop)",
+  "plat.hint": "Rithmic and WealthCharts <b>stop the threshold at the profit target</b>; Tradovate keeps trailing your high.",
+  "btn.reset": "Reset",
+  "btn.demo": "Load example",
+  "privacy.hint": "Inputs stay in this browser and are never sent to a server.",
+  "results.aria": "Results",
+  "tick.25": "25% no new entries",
+  "tick.50": "50% half size",
+  "foot.threshold": "Trailing threshold ",
+  "foot.balance": "Current balance ",
+  "mnq.pre": "MNQ 1 contract ",
+  "mnq.post": " pts",
+  "card.risk": "Suggested max loss per trade",
+  "card.daily": "Daily personal cap",
+  "card.dailyD": "25% of the drawdown · a personal rule, not a firm rule",
+  "resultNotice": "Rules checked <b>2026-11-22</b> · Final payout eligibility is decided in your <b>Apex dashboard</b>.",
+  "pa.req": "Three payout requirements",
+  "chk.days": "Qualifying days",
+  "chk.cons": "Consistency rule",
+  "chk.bal": "Balance requirement",
+  "inactiveNote": "<b>PA inactivity rule:</b> two trading days with $50+ net profit within any rolling 30 days (if missed, the account is permanently closed and payout eligibility is lost; legacy rules differ).",
+  "pa.amount": "Payout amount",
+  "mini.excess": "Above the Safety Net",
+  "mini.remaining": "Payouts left",
+  "mini.cum": "Max over 6 payouts",
+  "capCaption": "The request amount is the smaller of the round cap and your balance above the Safety Net. Every payout is paid at 100%. Platform details such as unfilled Tradovate positions are confirmed in your Apex dashboard before you request.",
+  "pa.next": "Next steps",
+  "eval.progress": "Profit target progress",
+  "eval.target": "Profit target",
+  "eval.threshold": "Evaluation threshold ",
+  "eval.dll": "Daily loss limit ",
+  "eval.dllTag": "(evaluation only)",
+  "eval.what": "What matters in the evaluation",
+  "caps.summary": "View payout cap table",
+  "caps.round": "Payout",
+  "caps.paid": "Paid at 100%",
+  "caps.caption": "After all six payouts the PA closes and you must pass a new evaluation. Per-round caps come from the official table; totals are calculated.",
+  "legacyNote": "<b>Legacy rules selected.</b> This screen only switches the consistency test to 30%. Legacy accounts use an 8-day payout cycle (5 days with $50+ net profit) and different round caps and activation fees, so <b>the amounts shown follow the new products</b>.",
+  "cta.blog": "RedWise Lab blog ↗",
+  "cta.blogSub": "Apex rule notes and risk management (in Korean)",
+  "cta.ebook": "Apex rules handbook",
+  "cta.ebookSub": "These rules in depth, with the Excel version (in Korean)",
+  "cta.ebookChip": "Coming soon",
+  "cta.yt": "YouTube @RedWiseLab",
+  "cta.ytSub": "Walkthroughs and account-defense videos (in Korean)",
+  "cta.ytChip": "New channel",
+  "footer.brand": " · Apex Rule Calculator",
+  "footer.disclaimer1": "This calculator is a simulation for reference only and is not investment advice. Rules checked 2026-11-22 · Re-check Apex's official rules before requesting a payout.",
+  "footer.disclaimer2": "This page is not official Apex Trader Funding material and has not been reviewed or approved by Apex. Prop accounts are simulated funded accounts; purchase and activation fees are non-refundable. Rules and prices can change without notice. This page contains no affiliate or referral links. Trading futures involves substantial risk of loss.",
+  "footer.analytics": "Page views are counted with Google Analytics."
+};
+
+/* 동적 문구 — [한국어, 영어] */
+const MSG = {
+  "state.dead": ["임계값 터치 · 계좌 종료", "Threshold hit · account closed"],
+  "state.risk": ["위험 · 그날 매매 종료", "Danger · stop trading today"],
+  "state.risk2": ["경계 · 신규 진입 중단", "At risk · no new entries"],
+  "state.warn": ["주의 · 계약수 절반", "Caution · half size"],
+  "state.fair": ["양호", "Fair"],
+  "state.safe": ["안전", "Safe"],
+
+  "sub.dead": ["이미 드로우다운 한도를 넘었습니다", "The drawdown limit is already breached"],
+  "sub.over": ["한도 이상 여유 (DD 대비 +{x}{fixed})", "Buffer above the limit (+{x} over DD{fixed})"],
+  "over.fixed": [" · 임계값 고정됨", " · threshold fixed"],
+  "sub.pct": ["드로우다운 한도의 {p}", "{p} of the drawdown limit"],
+  "risk.d": ["버퍼의 10% · MNQ 1계약 {n}포인트", "10% of buffer · MNQ 1 contract {n} pts"],
+  "safety.above": ["현재 잔고가 이 선 위에 있습니다", "Current balance is above this line"],
+  "safety.below": ["현재 잔고가 {x} 아래입니다", "Current balance is {x} below it"],
+  "mb.label": ["남은 드로우다운 여유", "Remaining drawdown buffer"],
+  "size.meta": ["드로우다운 {x}", "Drawdown {x}"],
+  "lbl.safety": ["Safety Net", "Safety Net"],
+  "lbl.safetyEval": ["PA Safety Net", "PA Safety Net"],
+  "lbl.minreq": ["최소 요청 잔고", "Minimum request balance"],
+  "lbl.minreqEval": ["PA 최소 요청 잔고", "PA minimum request balance"],
+  "minreq.d": ["시작 잔고 + Safety Net + $500", "Starting balance + Safety Net + $500"],
+  "minreq.dEval": ["PA 전환 후 첫 출금에 필요한 잔고", "Balance needed for the first payout after PA activation"],
+  "days.hint": ["최소 {x} 이상", "at least {x}"],
+  "bal.pa": ["PA 잔고", "PA balance"],
+  "bal.eval": ["평가 잔고", "Evaluation balance"],
+  "hwm.pa.intraday": ["Intraday는 미실현 수익까지 포함한 장중 고점을 적습니다. 비워 두면 실제보다 안전해 보입니다.",
+    "For Intraday, enter the peak that includes unrealized profit. Leaving it blank makes the buffer look safer than it is."],
+  "hwm.pa.eod": ["EOD는 마감 잔고의 최고값만 봅니다. 현재 잔고가 마감 최고값보다 높아도 임계값은 다음 마감에 오릅니다.",
+    "EOD only tracks the highest closing balance. A current balance above that high does not move the threshold until the next close."],
+  "hwm.eval.intraday": ["Intraday 평가는 장중 고점(미실현 포함)까지 임계값이 올라갑니다.",
+    "In an Intraday evaluation the threshold trails the intraday peak, unrealized profit included."],
+  "hwm.eval.eod": ["EOD 평가는 마감 잔고 기준으로만 임계값이 올라갑니다.",
+    "In an EOD evaluation the threshold only moves with closing balances."],
+  "hwm.corrected": ["최고 잔고를 {by}로 보정했습니다 ({raw} → {hwm}).", "Peak balance adjusted to {by} ({raw} → {hwm})."],
+  "by.balance": ["현재 잔고", "current balance"],
+  "by.start": ["시작 잔고", "starting balance"],
+  "hwm.below": ["최고 잔고가 현재 잔고보다 낮습니다. EOD 마감 잔고 기준인지 확인해 주세요.",
+    "The peak balance is lower than the current balance. Check that you entered closing balances for EOD."],
+  "type.intraday": ["Intraday는 장중 고점(미실현 포함)까지 임계값이 따라 올라갑니다.",
+    "With Intraday the threshold trails the intraday peak, unrealized profit included."],
+  "type.eod": ["EOD는 매 거래일 마감 잔고로만 임계값이 정해집니다. 초보자에게 더 다루기 쉽습니다.",
+    "With EOD the threshold is set only by each closing balance. Easier to manage when you are starting out."],
+  "mode.tagEval": ["평가", "Eval"],
+  "hero.label": ["남은 드로우다운 여유", "Remaining drawdown buffer"],
+
+  "chk.days.v": ["{d} / {m}일", "{d} / {m} days"],
+  "chk.days.d": ["최소 일 수익 {x} 이상인 날만 셉니다 (연속 불필요)",
+    "Only days with at least {x} profit count (not necessarily consecutive)"],
+  "chk.cons.na": ["계산 불가", "n/a"],
+  "chk.cons.d": ["그 기간 가장 큰 수익일 ÷ 마지막 출금 이후 순이익 &lt; {limit}",
+    "Best day ÷ net profit since last payout &lt; {limit}"],
+  "chk.cons.needMore": ["순이익 {x} 더 필요", "{x} more net profit needed"],
+  "chk.cons.needExact": ["정확히 {limit}는 미달 — 순이익을 더 쌓아야 합니다",
+    "Exactly {limit} does not pass — build a little more net profit"],
+  "chk.bal.pass": ["통과", "Pass"],
+  "chk.bal.short": ["{x} 부족", "{x} short"],
+  "chk.bal.d": ["최소 요청 잔고 {x} 이상", "At least the minimum request balance {x}"],
+  "tag.new": ["신규 50%", "New 50%"],
+  "tag.legacy": ["레거시 30%", "Legacy 30%"],
+  "badge.yes": ["출금 신청 가능", "Payout available"],
+  "badge.no": ["지금은 신청 불가", "Not available yet"],
+  "lead.est": ["요건 충족 시 최대", "Up to, once eligible"],
+  "unit.ok": ["이번 회차 신청 가능 상한", "Cap for this payout"],
+  "unit.est": ["지금은 신청 불가 · 요건 충족 시 상한", "Not now · cap once eligible"],
+  "unit.none": ["잔고가 Safety Net 위로 올라와야 신청 금액이 생깁니다",
+    "Your balance must rise above the Safety Net before any payout is possible"],
+  "cap.label": ["{n}회차 상한", "Payout {n} cap"],
+  "remaining": ["{n}회", "{n}"],
+
+  "act.dead": ["<b>이 계좌는 임계값에 닿았습니다.</b> 새 계좌 없이는 다음 단계가 없습니다. 같은 실수를 반복하지 않도록 마지막 세션 기록을 남기세요.",
+    "<b>This account has touched its threshold.</b> There is no next step without a new account. Write down the last session so you do not repeat it."],
+  "act.bufLow": ["<b>버퍼가 {p}입니다.</b> 신규 진입을 멈추고 청산만 하세요. 새 진입은 여유가 25%를 넘긴 뒤에.",
+    "<b>Buffer is {p}.</b> Stop opening new positions and only close. Enter again once the buffer is above 25%."],
+  "act.bufMid": ["<b>계약수를 절반으로 줄이세요.</b> 현재 버퍼 {x}에서 1회 손실은 {y}를 넘지 않게.",
+    "<b>Cut your size in half.</b> With a {x} buffer, keep each loss under {y}."],
+  "act.days": ["<b>자격 거래일 {d}/{m}일.</b> 하루 {x} 이상 수익인 날을 {n} 더 채우면 됩니다.",
+    "<b>Qualifying days: {d}/{m}.</b> Add {n} with at least {x} profit."],
+  "act.netZero": ["<b>마지막 출금 이후 순이익이 아직 0 이하입니다.</b> 일관성 비율은 순이익이 쌓여야 계산됩니다.",
+    "<b>Net profit since your last payout is still zero or below.</b> The consistency ratio needs profit to calculate."],
+  "act.consMore": ["마지막 출금 이후 순이익을 <b>{x} 더</b> 쌓으면 {limit} 아래로 내려옵니다.",
+    "<b>{x} more</b> net profit since your last payout brings the ratio below {limit}."],
+  "act.consExact": ["비율이 한도와 정확히 같습니다. 한도 미만이어야 통과이므로 마지막 출금 이후 순이익을 조금이라도 더 쌓아야 합니다.",
+    "The ratio sits exactly on the limit. It must be under the limit, so add at least a little more net profit."],
+  "act.cons": ["<b>일관성 미달 — {p}.</b> {body} 그사이 하루 수익은 {x}을 넘기지 마세요.",
+    "<b>Consistency short — {p}.</b> {body} Meanwhile, do not let any single day exceed {x}."],
+  "act.bal": ["<b>잔고 {x} 부족.</b> 최소 요청 잔고 {y}까지 더 벌어야 신청할 수 있습니다.",
+    "<b>{x} short on balance.</b> You need to reach the minimum request balance of {y} before requesting."],
+  "act.eligible": ["<b>요건을 모두 채웠습니다.</b> 첫 출금은 최소 금액 {x}으로 절차를 한 번 끝까지 경험해 보세요.",
+    "<b>All requirements met.</b> For a first payout, take the minimum {x} once to learn the whole process."],
+  "act.capSmall": ["<b>신청 가능 상한이 {x}로 최소 출금액보다 작습니다.</b> Safety Net 위로 {d}만큼 더 벌어야 합니다.",
+    "<b>The payout cap of {x} is below the minimum payout.</b> Earn {d} more above the Safety Net."],
+  "act.rounds": ["남은 출금 횟수 <b>{n}</b>. 6회를 모두 받으면 이 PA는 닫힙니다.",
+    "<b>{n} left.</b> The PA closes after all six payouts."],
+  "act.foot": ["출금을 신청한 뒤에도 매매는 계속할 수 있습니다. 다만 <b>신청액이 이미 빠졌다고 가정</b>하고 매매하세요. 신청 후 잔고가 최소 요건 아래로 내려가면 자동 거절됩니다.",
+    "You can keep trading after requesting a payout, but trade as if <b>the requested amount has already left</b> the account. If the balance drops below the minimum after the request, it is rejected automatically."],
+
+  "eval.progressText": ["{p} 달성", "{p} complete"],
+  "eval.reached": ["목표 달성", "Target reached"],
+  "eval.remain": ["{x} 남음", "{x} to go"],
+  "eval.dllNone": ["없음 (Intraday)", "None (Intraday)"],
+  "eval.act.reached": ["<b>목표 잔고에 도달했습니다.</b> 마감 후 6PM ET에 통과가 표시되고, 그때부터 <b>7일 안에</b> PA 활성화비({x})를 내야 합니다.",
+    "<b>You reached the profit target.</b> The pass shows after the 6 PM ET close, and from then you have <b>7 days</b> to pay the PA activation fee ({x})."],
+  "eval.act.remain": ["목표까지 <b>{x}</b> 남았습니다. 하루 개인 상한 {y}을 지키면 {n} 분량입니다.",
+    "<b>{x}</b> to the target. At a {y} daily personal cap that is {n} of trading."],
+  "eval.act.dead": ["<b>임계값에 닿았습니다.</b> 이 평가는 종료되었습니다.",
+    "<b>The threshold was hit.</b> This evaluation is over."],
+  "eval.act.low": ["버퍼 {p} — 신규 진입을 멈추세요. 1회 손실 한도는 {x}입니다.",
+    "Buffer {p} — stop new entries. Your per-trade loss limit is {x}."],
+  "eval.act.mid": ["버퍼 {p} — 계약수를 절반으로 줄이는 구간입니다.",
+    "Buffer {p} — halve your size."],
+  "eval.act.free": ["<b>Tradovate는 임계값이 멈추지 않습니다.</b> 목표에 가까울수록 여유가 줄어드니, Rithmic·WealthCharts보다 보수적으로 운용하세요.",
+    "<b>Tradovate does not stop the threshold.</b> The closer you get to the target, the less room you have, so trade more conservatively than on Rithmic or WealthCharts."],
+  "eval.act.stop": ["이 플랫폼은 임계값이 <b>목표 잔고 {x}에서 정지</b>합니다. 목표 근처에서 여유가 {y}로 회복됩니다.",
+    "On this platform the threshold <b>stops at the {x} target balance</b>. Near the target your buffer recovers to {y}."],
+  "eval.act.cons": ["일관성 규칙은 PA 출금 심사에서 적용됩니다. 평가 단계 적용 여부는 계좌 약관·대시보드 공지를 확인하세요. PA로 넘어가면 <b>가장 큰 수익일이 순이익의 50% 미만</b>이어야 하므로, 하루에 크게 번 기록은 출금을 미룰 수 있습니다.",
+    "The consistency rule applies when a PA payout is reviewed. Check your account terms and dashboard notices for whether it applies during the evaluation. In a PA, <b>your best day must stay under 50% of net profit</b>, so one big day can delay a payout."],
+  "eval.act.first": ["PA 전환 후 첫 출금까지 필요한 순이익은 <b>{x}</b>(잔고 {y})입니다.",
+    "The net profit needed for the first payout after PA activation is <b>{x}</b> (balance {y})."],
+
+  "caps.row": ["{n}회", "Payout {n}"],
+  "caps.now": [" · 현재", " · current"],
+  "caps.sum": ["합계", "Total"],
+  "caps.label": ["{size} · {type} 회차별 상한", "{size} · {type} payout caps"]
+};
+
+/* 수량 표현: 영어 복수형 / 한국어 조사 */
+function qDays(n){ return LANG === "en" ? (n === 1 ? "1 day" : n + " days") : n + "일"; }
+function qRounds(n){ return LANG === "en" ? (n === 1 ? "1 payout" : n + " payouts") : n + "회"; }
+
+function t(key, p){
+  const row = MSG[key];
+  if (!row){ console.warn("[i18n] missing message:", key); return key; }
+  let s = row[LANG === "en" ? 1 : 0];
+  if (p) s = s.replace(/\{(\w+)\}/g, (m, k) => (p[k] != null ? p[k] : m));
+  return s;
+}
+
+/* ── 정적 마크업 번역 ── */
+const I18N_ATTRS = [
+  ["data-i18n", "text"],
+  ["data-i18n-html", "html"],
+  ["data-i18n-pre", "pre"],
+  ["data-i18n-post", "post"],
+  ["data-i18n-aria", "aria"]
+];
+let staticRecs = [];
+
+function textNodesOf(el){
+  return Array.prototype.filter.call(el.childNodes, n => n.nodeType === 3);
+}
+function captureStatic(){
+  staticRecs = [];
+  I18N_ATTRS.forEach(pair => {
+    const attr = pair[0], mode = pair[1];
+    $$("[" + attr + "]").forEach(el => {
+      let ko;
+      if (mode === "text") ko = el.textContent;
+      else if (mode === "html") ko = el.innerHTML;
+      else if (mode === "aria") ko = el.getAttribute("aria-label") || "";
+      else {
+        const nodes = textNodesOf(el);
+        ko = mode === "pre" ? (nodes[0] ? nodes[0].nodeValue : "")
+                            : (nodes.length ? nodes[nodes.length - 1].nodeValue : "");
+      }
+      staticRecs.push({ el: el, mode: mode, key: el.getAttribute(attr), ko: ko });
+    });
+  });
+}
+function setRecord(rec, value){
+  if (rec.mode === "text") rec.el.textContent = value;
+  else if (rec.mode === "html") rec.el.innerHTML = value;
+  else if (rec.mode === "aria") rec.el.setAttribute("aria-label", value);
+  else {
+    const nodes = textNodesOf(rec.el);
+    if (rec.mode === "pre"){ if (nodes[0]) nodes[0].nodeValue = value; }
+    else if (nodes.length){ nodes[nodes.length - 1].nodeValue = value; }
+  }
+}
+function applyStatic(){
+  const miss = [];
+  staticRecs.forEach(rec => {
+    if (LANG === "ko"){ setRecord(rec, rec.ko); return; }
+    const v = EN_STATIC[rec.key];
+    if (v == null){ miss.push(rec.key); setRecord(rec, rec.ko); return; }
+    setRecord(rec, v);
+  });
+  i18nMissing = miss;
+}
+
+/* ── head 메타 (title·description·OG) ── */
+const SITE = "https://inhyeokoh03.github.io/apex-rule-calculator/";
+const META_EN = {
+  title: "Apex Rule Calculator — Trailing Drawdown & Safety Net",
+  desc: "Free calculator for Apex Trader Funding's new EOD and Intraday accounts: trailing drawdown buffer, Safety Net, 50% consistency test and payout eligibility for 25K–150K accounts, in one screen.",
+  ogTitle: "Apex Rule Calculator · RedWise Lab",
+  ogDesc: "Trailing drawdown buffer, Safety Net, 50% consistency test and payout caps for Apex Trader Funding accounts — one free screen, no sign-up.",
+  locale: "en_US",
+  localeAlt: "ko_KR"
+};
+let metaKo = null;
+
+function captureMeta(){
+  const q = s => $(s);
+  metaKo = {
+    title: document.title,
+    desc: q('meta[name="description"]').getAttribute("content"),
+    ogTitle: q('meta[property="og:title"]').getAttribute("content"),
+    ogDesc: q('meta[property="og:description"]').getAttribute("content"),
+    locale: q('meta[property="og:locale"]').getAttribute("content"),
+    localeAlt: q('meta[property="og:locale:alternate"]').getAttribute("content")
+  };
+}
+function applyMeta(){
+  const m = LANG === "en" ? META_EN : metaKo;
+  document.title = m.title;
+  $('meta[name="description"]').setAttribute("content", m.desc);
+  $('meta[property="og:title"]').setAttribute("content", m.ogTitle);
+  $('meta[property="og:description"]').setAttribute("content", m.ogDesc);
+  $('meta[property="og:locale"]').setAttribute("content", m.locale);
+  $('meta[property="og:locale:alternate"]').setAttribute("content", m.localeAlt);
+  $('meta[property="og:url"]').setAttribute("content", LANG === "en" ? SITE + "?lang=en" : SITE);
+}
+
+/* ── 언어 전환 ── */
+function readLangFromUrl(){
+  try{
+    const v = (new URLSearchParams(location.search)).get("lang");
+    if (v === "en" || v === "ko") return v.toLowerCase();
+  }catch(e){}
+  return null;
+}
+function storedLang(){
+  try{
+    const v = localStorage.getItem(LANG_KEY);
+    if (v === "en" || v === "ko") return v;
+  }catch(e){}
+  return null;
+}
+function updateUrl(){
+  try{
+    const u = new URL(location.href);
+    if (LANG === "en") u.searchParams.set("lang", "en");
+    else u.searchParams.delete("lang");
+    const qs = u.searchParams.toString();
+    const next = u.pathname + (qs ? "?" + qs : "") + u.hash;
+    history.replaceState(null, "", next);
+  }catch(e){ /* file:// 등에서는 주소 갱신 생략 */ }
+}
+function setLang(lang, opts){
+  LANG = lang === "en" ? "en" : "ko";
+  document.documentElement.lang = LANG;
+  try{ localStorage.setItem(LANG_KEY, LANG); }catch(e){}
+  applyStatic();
+  applyMeta();
+  $$("[data-lang]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === LANG)));
+  if (!opts || opts.url) updateUrl();
+  render();
+}
 
 /* ── 상태 ── */
 const DEFAULT = {
@@ -793,22 +1184,26 @@ function currentInputs(){
 
 /* ── 상태 판정 ── */
 function bufferState(buffer, dd){
-  if (buffer <= 0) return {key:"dead", label:"임계값 터치 · 계좌 종료", cls:"dead"};
+  if (buffer <= 0) return {key:"dead", label:t("state.dead"), cls:"dead"};
   const r = buffer / dd;
-  if (r < 0.10) return {key:"risk", label:"위험 · 그날 매매 종료", cls:"bad"};
-  if (r < 0.25) return {key:"risk2", label:"경계 · 신규 진입 중단", cls:"bad"};
-  if (r < 0.50) return {key:"warn", label:"주의 · 계약수 절반", cls:"warn"};
-  if (r < 0.75) return {key:"ok", label:"양호", cls:"ok"};
-  return {key:"ok", label:"안전", cls:"ok"};
+  if (r < 0.10) return {key:"risk", label:t("state.risk"), cls:"bad"};
+  if (r < 0.25) return {key:"risk2", label:t("state.risk2"), cls:"bad"};
+  if (r < 0.50) return {key:"warn", label:t("state.warn"), cls:"warn"};
+  if (r < 0.75) return {key:"ok", label:t("state.fair"), cls:"ok"};
+  return {key:"ok", label:t("state.safe"), cls:"ok"};
 }
 
 /* ── 렌더 ── */
 function render(){
   const inp = currentInputs();
-  const res = S.mode === "pa" ? computePA(inp) : computeEval(inp);
+  // 두 단계 모두 계산해 각 블록을 채운다(숨김 블록에 이전 언어 문구가 남지 않도록).
+  const resPa = computePA(inp);
+  const resEv = computeEval(inp);
+  const res = S.mode === "pa" ? resPa : resEv;
   window.__last = res;
   renderCommon(res, inp);
-  if (res.mode === "pa") renderPA(res, inp); else renderEval(res, inp);
+  renderPA(resPa, inp);
+  renderEval(resEv, inp);
   renderCaps(res);
   save();
 }
@@ -819,16 +1214,16 @@ function renderCommon(res, inp){
   $("#outBuffer").style.color = res.buffer <= 0 ? "var(--bad)"
     : (res.bufferPct < 0.25 ? "var(--warn)" : "var(--txt)");
   if (res.buffer <= 0){
-    $("#outBufferSub").textContent = "이미 드로우다운 한도를 넘었습니다";
+    $("#outBufferSub").textContent = t("sub.dead");
   } else if (res.bufferPct > 1){
     // 100% 초과 구간은 % 대신 달러로 — "한도를 122% 썼다"는 오해 방지
     const extra = res.buffer - res.dd;
     const fixed = res.mode === "pa"
       ? res.threshold >= res.stopThreshold - 0.5
       : (res.stopAtTarget && res.threshold >= res.targetBal - 0.5);
-    $("#outBufferSub").textContent = "한도 이상 여유 (DD 대비 +" + usd(extra) + (fixed ? " · 임계값 고정됨" : "") + ")";
+    $("#outBufferSub").textContent = t("sub.over", {x: usd(extra), fixed: fixed ? t("over.fixed") : ""});
   } else {
-    $("#outBufferSub").textContent = "드로우다운 한도의 " + pct(Math.max(0, res.bufferPct));
+    $("#outBufferSub").textContent = t("sub.pct", {p: pct(Math.max(0, res.bufferPct))});
   }
   $("#outState").dataset.s = st.cls;
   $("#outState").querySelector("span").textContent = st.label;
@@ -846,44 +1241,42 @@ function renderCommon(res, inp){
   $("#outMinReq").textContent = usd(res.minRequest);
   $("#outRisk").textContent = usd(res.riskLimit);
   const pts1 = Math.max(0, res.riskLimit) / 2;
-  $("#outRiskD").textContent = "버퍼의 10% · MNQ 1계약 " + num(pts1) + "포인트";
+  $("#outRiskD").textContent = t("risk.d", {n: num(pts1)});
   $("#outDaily").textContent = usd(res.dailyCap);
   $("#cardRisk").className = "card" + (res.buffer <= 0 ? " risk" : "");
   $("#cardMinReq").className = "card" + (res.balance >= res.minRequest ? " good" : "");
   $("#cardSafety").className = "card";
   $("#outSafetyD").textContent = res.balance >= res.safetyLine
-    ? "현재 잔고가 이 선 위에 있습니다"
-    : "현재 잔고가 " + usd(res.safetyLine - res.balance) + " 아래입니다";
+    ? t("safety.above")
+    : t("safety.below", {x: usd(res.safetyLine - res.balance)});
 
   // mobile bar
-  $("#mbK").textContent = S.mode === "pa" ? "남은 드로우다운 여유" : "남은 드로우다운 여유";
+  $("#mbK").textContent = t("mb.label");
   $("#mbV").textContent = usd(res.buffer);
   $("#mbState").dataset.s = st.cls;
   $("#mbState").querySelector("span").textContent = st.label;
 
-  $("#sizeMeta").textContent = "드로우다운 " + usd(PRODUCTS[inp.size].dd);
-  $("#lblSafety").textContent = S.mode === "pa" ? "Safety Net" : "PA Safety Net";
-  $("#lblMinReq").textContent = S.mode === "pa" ? "최소 요청 잔고" : "PA 최소 요청 잔고";
+  $("#sizeMeta").textContent = t("size.meta", {x: usd(PRODUCTS[inp.size].dd)});
+  $("#lblSafety").textContent = S.mode === "pa" ? t("lbl.safety") : t("lbl.safetyEval");
+  $("#lblMinReq").textContent = S.mode === "pa" ? t("lbl.minreq") : t("lbl.minreqEval");
   $("#outMinReqD").textContent = S.mode === "pa"
-    ? "시작 잔고 + Safety Net + $500"
-    : "PA 전환 후 첫 출금에 필요한 잔고";
-  $("#qualDaysHint").textContent = "최소 " + usd(PRODUCTS[inp.size].minDaily[inp.type]) + " 이상";
-  $("#balanceHint").textContent = S.mode === "pa" ? "PA 잔고" : "평가 잔고";
+    ? t("minreq.d")
+    : t("minreq.dEval");
+  $("#qualDaysHint").textContent = t("days.hint", {x: usd(PRODUCTS[inp.size].minDaily[inp.type])});
+  $("#balanceHint").textContent = S.mode === "pa" ? t("bal.pa") : t("bal.eval");
   $("#hwmNote").textContent = S.mode === "pa"
-    ? (inp.type === "Intraday"
-        ? "Intraday는 미실현 수익까지 포함한 장중 고점을 적습니다. 비워 두면 실제보다 안전해 보입니다."
-        : "EOD는 마감 잔고의 최고값만 봅니다. 현재 잔고가 마감 최고값보다 높아도 임계값은 다음 마감에 오릅니다.")
-    : (inp.type === "Intraday"
-        ? "Intraday 평가는 장중 고점(미실현 포함)까지 임계값이 올라갑니다."
-        : "EOD 평가는 마감 잔고 기준으로만 임계값이 올라갑니다.");
+    ? (inp.type === "Intraday" ? t("hwm.pa.intraday") : t("hwm.pa.eod"))
+    : (inp.type === "Intraday" ? t("hwm.eval.intraday") : t("hwm.eval.eod"));
 
   // HWM 보정·경고 안내 (보정이 조용히 일어나지 않도록)
   const hw = [];
   if (res.hwmCorrectedBy){
-    hw.push({kind:"info", text:"최고 잔고를 " + res.hwmCorrectedBy + "로 보정했습니다 (" + usd(res.hwmRaw) + " → " + usd(res.hwm) + ")."});
+    hw.push({kind:"info", text: t("hwm.corrected", {
+      by: res.hwmCorrectedKey === "balance" ? t("by.balance") : t("by.start"),
+      raw: usd(res.hwmRaw), hwm: usd(res.hwm)})});
   }
   if (res.hwmBelowBalance){
-    hw.push({kind:"warn", text:"최고 잔고가 현재 잔고보다 낮습니다. EOD 마감 잔고 기준인지 확인해 주세요."});
+    hw.push({kind:"warn", text: t("hwm.below")});
   }
   const hwBox = $("#hwmStatus");
   hwBox.hidden = hw.length === 0;
@@ -895,10 +1288,8 @@ function renderCommon(res, inp){
     p.textContent = m.text;
     hwBox.appendChild(p);
   });
-  $("#typeHint").textContent = inp.type === "Intraday"
-    ? "Intraday는 장중 고점(미실현 포함)까지 임계값이 따라 올라갑니다."
-    : "EOD는 매 거래일 마감 잔고로만 임계값이 정해집니다. 초보자에게 더 다루기 쉽습니다.";
-  $("#modeTag").textContent = S.mode === "pa" ? "PA" : "평가";
+  $("#typeHint").textContent = inp.type === "Intraday" ? t("type.intraday") : t("type.eod");
+  $("#modeTag").textContent = S.mode === "pa" ? "PA" : t("mode.tagEval");
 
   $("#paFields").hidden = S.mode !== "pa";
   $("#evalFields").hidden = S.mode !== "eval";
@@ -908,132 +1299,133 @@ function renderCommon(res, inp){
 }
 
 function renderPA(r, inp){
-  $("#heroLabel").textContent = "남은 드로우다운 여유";
+  $("#heroLabel").textContent = t("hero.label");
 
   // 체크리스트
-  setChk("#chkDays", r.daysOk ? "true" : "false", r.days + " / " + MIN_DAYS + "일",
-    "최소 일 수익 " + usd(r.minDaily) + " 이상인 날만 셉니다 (연속 불필요)");
+  setChk("#chkDays", r.daysOk ? "true" : "false", t("chk.days.v", {d: r.days, m: MIN_DAYS}),
+    t("chk.days.d", {x: usd(r.minDaily)}));
   const limitTxt = r.limit === 0.5 ? "50%" : "30%";
   const consNeed = r.additionalNet > 0
-    ? "순이익 " + usd(r.additionalNet) + " 더 필요"
-    : "정확히 " + limitTxt + "는 미달 — 순이익을 더 쌓아야 합니다";
+    ? t("chk.cons.needMore", {x: usd(r.additionalNet)})
+    : t("chk.cons.needExact", {limit: limitTxt});
   setChk("#chkCons", r.net <= 0 ? "false" : (r.consPass ? "true" : "false"),
-    r.ratio === null ? "계산 불가" : pct(r.ratio),
-    "그 기간 가장 큰 수익일 ÷ 마지막 출금 이후 순이익 &lt; " + limitTxt
-      + (r.consPass ? "" : "<br>" + consNeed));
+    r.ratio === null ? t("chk.cons.na") : pct(r.ratio),
+    t("chk.cons.d", {limit: limitTxt}) + (r.consPass ? "" : "<br>" + consNeed));
   setChk("#chkBal", r.balOk ? "true" : "false",
-    r.balOk ? "통과" : usd(r.minRequest - r.balance) + " 부족",
-    "최소 요청 잔고 " + usd(r.minRequest) + " 이상");
+    r.balOk ? t("chk.bal.pass") : t("chk.bal.short", {x: usd(r.minRequest - r.balance)}),
+    t("chk.bal.d", {x: usd(r.minRequest)}));
 
-  $("#paRuleTag").textContent = r.limit === 0.5 ? "신규 50%" : "레거시 30%";
+  $("#paRuleTag").textContent = r.limit === 0.5 ? t("tag.new") : t("tag.legacy");
 
   // 출금
   const badge = $("#payoutBadge");
   badge.dataset.ok = r.eligible ? "true" : "false";
-  badge.textContent = r.eligible ? "출금 신청 가능" : "지금은 신청 불가";
+  badge.textContent = r.eligible ? t("badge.yes") : t("badge.no");
   // 출금 가능 금액 — 불가일 때는 "신청 가능 $900"으로 읽히지 않게 보조 표기
   const money = $("#payoutMoney");
   const lead = $("#outApplyLead");
   const capBig = $("#outApplyCap");
   const capUnit = $("#outApplyUnit");
+  lead.textContent = t("lead.est");
   if (r.eligible){
     money.dataset.state = "ok";
     lead.hidden = true;
     capBig.textContent = usd(r.applyCap);
     capBig.style.color = r.applyCap > 0 ? "var(--ok)" : "var(--muted)";
-    capUnit.textContent = "이번 회차 신청 가능 상한";
+    capUnit.textContent = t("unit.ok");
   } else {
     money.dataset.state = "est";
     capBig.style.color = "var(--muted)";
     if (r.applyCap > 0){
       lead.hidden = false;
-      lead.textContent = "요건 충족 시 최대";
       capBig.textContent = usd(r.applyCap);
-      capUnit.textContent = "지금은 신청 불가 · 요건 충족 시 상한";
+      capUnit.textContent = t("unit.est");
     } else {
       lead.hidden = true;
       capBig.textContent = "—";
-      capUnit.textContent = "잔고가 Safety Net 위로 올라와야 신청 금액이 생깁니다";
+      capUnit.textContent = t("unit.none");
     }
   }
-  $("#capLabel").textContent = r.round + "회차 상한";
+  $("#capLabel").textContent = t("cap.label", {n: r.round});
   $("#outCap").textContent = usd(r.cap);
   $("#outExcess").textContent = usd(r.safetyExcess);
   $("#outExcess").style.color = r.safetyExcess < 0 ? "var(--bad)" : "var(--txt2)";
-  $("#outRemaining").textContent = r.remainingRounds + "회";
+  $("#outRemaining").textContent = t("remaining", {n: r.remainingRounds});
   $("#outCum").textContent = usd(r.cumCap);
 
   // 액션
   const acts = [];
   if (r.buffer <= 0){
-    acts.push({p:true, t:"<b>이 계좌는 임계값에 닿았습니다.</b> 새 계좌 없이는 다음 단계가 없습니다. 같은 실수를 반복하지 않도록 마지막 세션 기록을 남기세요."});
+    acts.push({p:true, t: t("act.dead")});
   } else {
     if (r.bufferPct < 0.25){
-      acts.push({p:true, t:"<b>버퍼가 " + pct(Math.max(0, r.bufferPct)) + "입니다.</b> 신규 진입을 멈추고 청산만 하세요. 새 진입은 여유가 25%를 넘긴 뒤에."});
+      acts.push({p:true, t: t("act.bufLow", {p: pct(Math.max(0, r.bufferPct))})});
     } else if (r.bufferPct < 0.50){
-      acts.push({p:true, t:"<b>계약수를 절반으로 줄이세요.</b> 현재 버퍼 " + usd(r.buffer) + "에서 1회 손실은 " + usd(r.riskLimit) + "를 넘지 않게."});
+      acts.push({p:true, t: t("act.bufMid", {x: usd(r.buffer), y: usd(r.riskLimit)})});
     }
     if (r.days < MIN_DAYS){
-      acts.push({t:"<b>자격 거래일 " + r.days + "/" + MIN_DAYS + "일.</b> 하루 " + usd(r.minDaily) + " 이상 수익인 날을 " + (MIN_DAYS - r.days) + "일 더 채우면 됩니다."});
+      acts.push({t: t("act.days", {d: r.days, m: MIN_DAYS, x: usd(r.minDaily), n: qDays(MIN_DAYS - r.days)})});
     }
     if (!r.consPass){
       if (r.net <= 0){
-        acts.push({t:"<b>마지막 출금 이후 순이익이 아직 0 이하입니다.</b> 일관성 비율은 순이익이 쌓여야 계산됩니다."});
+        acts.push({t: t("act.netZero")});
       } else {
         const consBody = r.additionalNet > 0
-          ? "마지막 출금 이후 순이익을 <b>" + usd(r.additionalNet) + " 더</b> 쌓으면 " + limitTxt + " 아래로 내려옵니다."
-          : "비율이 한도와 정확히 같습니다. 한도 미만이어야 통과이므로 마지막 출금 이후 순이익을 조금이라도 더 쌓아야 합니다.";
-        acts.push({t:"<b>일관성 미달 — " + pct(r.ratio) + ".</b> " + consBody + " 그사이 하루 수익은 " + usd(r.largest) + "을 넘기지 마세요."});
+          ? t("act.consMore", {x: usd(r.additionalNet), limit: limitTxt})
+          : t("act.consExact");
+        acts.push({t: t("act.cons", {p: pct(r.ratio), body: consBody, x: usd(r.largest)})});
       }
     }
     if (!r.balOk){
-      acts.push({t:"<b>잔고 " + usd(r.minRequest - r.balance) + " 부족.</b> 최소 요청 잔고 " + usd(r.minRequest) + "까지 더 벌어야 신청할 수 있습니다."});
+      acts.push({t: t("act.bal", {x: usd(r.minRequest - r.balance), y: usd(r.minRequest)})});
     }
     if (r.eligible){
-      acts.splice(0, 0, {p:true, t:"<b>요건을 모두 채웠습니다.</b> 첫 출금은 최소 금액 " + usd(MIN_PAYOUT) + "으로 절차를 한 번 끝까지 경험해 보세요."});
+      acts.splice(0, 0, {p:true, t: t("act.eligible", {x: usd(MIN_PAYOUT)})});
       if (r.applyCap < MIN_PAYOUT){
-        acts.push({t:"<b>신청 가능 상한이 " + usd(r.applyCap) + "로 최소 출금액보다 작습니다.</b> Safety Net 위로 " + usd(MIN_PAYOUT - r.applyCap) + "만큼 더 벌어야 합니다."});
+        acts.push({t: t("act.capSmall", {x: usd(r.applyCap), d: usd(MIN_PAYOUT - r.applyCap)})});
       }
       if (r.remainingRounds <= 2){
-        acts.push({t:"남은 출금 횟수 <b>" + r.remainingRounds + "회</b>. 6회를 모두 받으면 이 PA는 닫힙니다."});
+        acts.push({t: t("act.rounds", {n: qRounds(r.remainingRounds)})});
       }
     }
   }
-  acts.push({t:"출금을 신청한 뒤에도 매매는 계속할 수 있습니다. 다만 <b>신청액이 이미 빠졌다고 가정</b>하고 매매하세요. 신청 후 잔고가 최소 요건 아래로 내려가면 자동 거절됩니다."});
+  acts.push({t: t("act.foot")});
   fillActions("#actions", acts);
 }
 
 function renderEval(r, inp){
-  $("#heroLabel").textContent = "남은 드로우다운 여유";
+  $("#heroLabel").textContent = t("hero.label");
   $("#outTarget").textContent = usd(r.targetBal);
   const w = Math.max(0, Math.min(100, r.progress * 100));
   $("#evalMeter").style.width = w + "%";
-  $("#evalProgressText").textContent = pct(Math.max(0, r.progress)) + " 달성";
-  $("#evalRemainText").textContent = r.reached ? "목표 달성" : usd(r.remaining) + " 남음";
+  $("#evalProgressText").textContent = t("eval.progressText", {p: pct(Math.max(0, r.progress))});
+  $("#evalRemainText").textContent = r.reached ? t("eval.reached") : t("eval.remain", {x: usd(r.remaining)});
   $("#outEvalThreshold").textContent = usd(r.threshold);
-  $("#outDll").textContent = r.dll === null ? "없음 (Intraday)" : usd(r.dll);
+  $("#outDll").textContent = r.dll === null ? t("eval.dllNone") : usd(r.dll);
   $("#evalTag").textContent = r.stopAtTarget ? "Rithmic · WealthCharts" : "Tradovate";
 
   const acts = [];
   if (r.reached){
-    acts.push({p:true, t:"<b>목표 잔고에 도달했습니다.</b> 마감 후 6PM ET에 통과가 표시되고, 그때부터 <b>7일 안에</b> PA 활성화비(" + usd(r.activation) + ")를 내야 합니다."});
+    acts.push({p:true, t: t("eval.act.reached", {x: usd(r.activation)})});
   } else {
-    acts.push({p:true, t:"목표까지 <b>" + usd(r.remaining) + "</b> 남았습니다. 하루 개인 상한 " + usd(r.dailyCap) + "을 지키면 " + Math.max(1, Math.ceil(r.remaining / Math.max(1, r.dailyCap))) + "일 분량입니다."});
+    acts.push({p:true, t: t("eval.act.remain", {
+      x: usd(r.remaining), y: usd(r.dailyCap),
+      n: qDays(Math.max(1, Math.ceil(r.remaining / Math.max(1, r.dailyCap))))})});
   }
   if (r.buffer <= 0){
-    acts.push({t:"<b>임계값에 닿았습니다.</b> 이 평가는 종료되었습니다."});
+    acts.push({t: t("eval.act.dead")});
   } else if (r.bufferPct < 0.25){
-    acts.push({t:"버퍼 " + pct(r.bufferPct) + " — 신규 진입을 멈추세요. 1회 손실 한도는 " + usd(r.riskLimit) + "입니다."});
+    acts.push({t: t("eval.act.low", {p: pct(r.bufferPct), x: usd(r.riskLimit)})});
   } else if (r.bufferPct < 0.5){
-    acts.push({t:"버퍼 " + pct(r.bufferPct) + " — 계약수를 절반으로 줄이는 구간입니다."});
+    acts.push({t: t("eval.act.mid", {p: pct(r.bufferPct)})});
   }
   if (!r.stopAtTarget){
-    acts.push({t:"<b>Tradovate는 임계값이 멈추지 않습니다.</b> 목표에 가까울수록 여유가 줄어드니, Rithmic·WealthCharts보다 보수적으로 운용하세요."});
+    acts.push({t: t("eval.act.free")});
   } else {
-    acts.push({t:"이 플랫폼은 임계값이 <b>목표 잔고 " + usd(r.targetBal) + "에서 정지</b>합니다. 목표 근처에서 여유가 " + usd(r.dd) + "로 회복됩니다."});
+    acts.push({t: t("eval.act.stop", {x: usd(r.targetBal), y: usd(r.dd)})});
   }
-  acts.push({t:"일관성 규칙은 PA 출금 심사에서 적용됩니다. 평가 단계 적용 여부는 계좌 약관·대시보드 공지를 확인하세요. PA로 넘어가면 <b>가장 큰 수익일이 순이익의 50% 미만</b>이어야 하므로, 하루에 크게 번 기록은 출금을 미룰 수 있습니다."});
-  acts.push({t:"PA 전환 후 첫 출금까지 필요한 순이익은 <b>" + usd(r.minRequest - r.start) + "</b>(잔고 " + usd(r.minRequest) + ")입니다."});
+  acts.push({t: t("eval.act.cons")});
+  acts.push({t: t("eval.act.first", {x: usd(r.minRequest - r.start), y: usd(r.minRequest)})});
   fillActions("#evalActions", acts);
 }
 
@@ -1065,8 +1457,9 @@ function renderCaps(r){
   tbody.innerHTML = "";
   for (let round = 1; round <= MAX_ROUNDS; round++){
     const tr = document.createElement("tr");
-    if (r.mode === "pa" && round === r.round) tr.className = "now";
-    const th = document.createElement("td"); th.textContent = round + "회" + (r.mode === "pa" && round === r.round ? " · 현재" : ""); tr.appendChild(th);
+    const isNow = r.mode === "pa" && round === r.round;
+    if (isNow) tr.className = "now";
+    const th = document.createElement("td"); th.textContent = t("caps.row", {n: round}) + (isNow ? t("caps.now") : ""); tr.appendChild(th);
     CAPS[type][round].forEach((v, i) => {
       const td = document.createElement("td");
       td.textContent = usd(v);
@@ -1076,7 +1469,7 @@ function renderCaps(r){
     tbody.appendChild(tr);
   }
   const tr = document.createElement("tr");
-  const th = document.createElement("td"); th.textContent = "합계"; th.className = "sum";
+  const th = document.createElement("td"); th.textContent = t("caps.sum"); th.className = "sum";
   tr.appendChild(th);
   CAPS[type][1].forEach((_, i) => {
     let s = 0; for (let k = 1; k <= MAX_ROUNDS; k++) s += CAPS[type][k][i];
@@ -1086,7 +1479,7 @@ function renderCaps(r){
     tr.appendChild(td);
   });
   tbody.appendChild(tr);
-  $("#capsLabel").textContent = r.size + " · " + (r.type === "EOD" ? "EOD" : "Intraday") + " 회차별 상한";
+  $("#capsLabel").textContent = t("caps.label", {size: r.size, type: r.type === "EOD" ? "EOD" : "Intraday"});
 }
 
 /* ── UI 바인딩 ── */
@@ -1109,9 +1502,9 @@ function setSize(sz){
   syncInputs();
   render();
 }
-function setType(t){
-  S.type = t;
-  $$("[data-type]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.type === t)));
+function setType(tp){
+  S.type = tp;
+  $$("[data-type]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.type === tp)));
   render();
 }
 function syncInputs(){
@@ -1130,6 +1523,9 @@ function bind(){
   $$("[data-mode]").forEach(b => b.addEventListener("click", () => setMode(b.dataset.mode)));
   $$("[data-size]").forEach(b => b.addEventListener("click", () => setSize(b.dataset.size)));
   $$("[data-type]").forEach(b => b.addEventListener("click", () => setType(b.dataset.type)));
+  $$("[data-lang]").forEach(b => b.addEventListener("click", () => {
+    if (b.dataset.lang !== LANG) setLang(b.dataset.lang);
+  }));
 
   const money = [["#start","start"],["#balance","balance"],["#hwm","hwm"],["#cycleNet","cycleNet"],["#largestDay","largestDay"]];
   money.forEach(([sel, key]) => {
@@ -1188,6 +1584,8 @@ function bind(){
 
 /* ── 초기화 ── */
 load();
+captureMeta();
+captureStatic();
 document.documentElement.dataset.theme = S.theme || "dark";
 $("#themeBtn").textContent = document.documentElement.dataset.theme === "dark" ? "☾" : "☀";
 $$("[data-mode]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.mode === S.mode)));
@@ -1195,9 +1593,12 @@ $$("[data-size]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.s
 $$("[data-type]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.type === S.type)));
 syncInputs();
 bind();
-render();
+
+const urlLang = readLangFromUrl();
+setLang(urlLang || storedLang() || "ko", {url: !!urlLang});
 
 window.ApexCalc = { computePA, computeEval, PRODUCTS, CAPS, SIZES };
+window.ApexI18n = { lang: () => LANG, missing: () => i18nMissing.slice(), set: l => setLang(l) };
 })();
 </script>
 </body>
